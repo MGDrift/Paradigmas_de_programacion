@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro OTT</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Registro OTT</h1>
+        <form id="registration-form" action="/userdb/" method="post">
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+
+            <input type="submit" value="Registrarse">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("registration-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch(event.target.action, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+
+</html>

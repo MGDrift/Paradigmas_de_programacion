@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slide Navbar</title>
+    <link rel="stylesheet" type="text/css" href="/static/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">    
+        <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+            <!-- Agregar el id y el atributo action al formulario -->
+            <form id="registration-form" action="/userdb/" method="post">
+                <label for="chk" aria-hidden="true">Sign up</label>
+                <input type="text" name="username" placeholder="User name" required="">
+                <input type="email" name="email" placeholder="Email" required="">
+                <input type="password" name="password" placeholder="Password" required="">
+                <button type="submit">Sign up</button>
+                <p id="message" style="display: none;">Registro exitoso. Bienvenido(a)!</p>
+            </form>
+        </div>
+
+        <div class="login">
+            <form id="login-form" action="/login" method="post">
+                <label for="chk" aria-hidden="true">Login</label>
+                <input type="text" name="username" placeholder="Username" required="">
+                <input type="password" name="password" placeholder="Password" required="">
+                <button type="submit">Login</button>
+            </form>
+    </div>
+
+    <script>
+        document.getElementById("registration-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch(event.target.action, {
+                method: "POST", // Asegúrate de que el método sea POST
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                // Manejar la respuesta del servidor aquí
+                console.log(result);
+
+                if (result.detail === "Este usuario ya existe") {
+                    // Mostrar mensaje de error si el usuario ya existe
+                    const messageElement = document.getElementById("message");
+                    messageElement.innerText = "Este usuario ya existe";
+                    messageElement.style.color = "red";
+                    messageElement.style.display = "block";
+                } else {
+                    // Redirigir a payment.html después de un registro exitoso
+                    window.location.href = "payment.html";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+
+        document.getElementById("login-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        fetch(event.target.action, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            // Manejar la respuesta del servidor aquí
+            console.log(result);
+
+            if (result.detail === "El usuario no es correcto" || result.detail === "la contraseña no es correcta") {
+                // Mostrar mensaje de error si el usuario o contraseña no son correctos
+                const messageElement = document.getElementById("message");
+                messageElement.innerText = "Usuario o contraseña incorrectos";
+                messageElement.style.color = "red";
+                messageElement.style.display = "block";
+            } else {
+                // Redirigir a video.html después de un inicio de sesión exitoso
+                window.location.href = "video.html";
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    });
+    </script>
+</body>
+</html>

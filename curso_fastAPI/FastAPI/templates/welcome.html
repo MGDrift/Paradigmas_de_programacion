@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Mi Proyecto</title>
+    <link rel="stylesheet" href="/static/welcome.css">
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <img src="/static/banner_image.png" alt="Netflix Logo">
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="/templates/login.html" class="login-btn">login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <div class="banner">
+            <img src="/static/banner_image.png" alt="Banner Image">
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Mi Proyecto. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Script para eliminar el botón de registro después del registro -->
+    <script>
+        // Verificar si el usuario ya se registró y ocultar el botón si es el caso
+        if (sessionStorage.getItem("registroExitoso")) {
+            document.querySelector(".registro-btn").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
