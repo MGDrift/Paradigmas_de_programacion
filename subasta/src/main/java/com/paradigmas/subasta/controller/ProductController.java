@@ -3,6 +3,7 @@ package com.paradigmas.subasta.controller;
 import com.paradigmas.subasta.model.Product;
 import com.paradigmas.subasta.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,22 @@ public class ProductController {
 	public ResponseEntity<List<Product>> getAllAuction() {
 		var products = productService.getAllProducts();
 		return ResponseEntity.ok(products);
+	}
+
+	@GetMapping("/change-value")
+	public ResponseEntity changeValue(@RequestParam("serialProduct") String serialProduct,
+										 @RequestParam("value") Integer value) {
+		try {
+			var wasChanged = productService.changeValue(serialProduct, value);
+			if (wasChanged) {
+				return ResponseEntity.ok().build();
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+			}
+		} catch (RuntimeException rte) {
+			System.err.println(rte.getMessage());
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@GetMapping

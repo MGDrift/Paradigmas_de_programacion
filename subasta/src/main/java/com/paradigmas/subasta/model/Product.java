@@ -8,8 +8,8 @@ public class Product {
     @Id
     private String serialProduct;
     private String name;
-    private Integer valor;
-    private String descripcion;
+    private Integer value;
+    private String description;
 
     public String getSerialProduct() {
         return serialProduct;
@@ -19,27 +19,27 @@ public class Product {
         this.serialProduct = serialProduct;
     }
 
-    public String getFirstName() {
+    public String getName() {
         return name;
     }
 
-    public void setFirstName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
     public Integer getValue() {
-        return valor;
+        return value;
     }
 
-    public void setValue(Integer valor) {
-        this.valor = valor;
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
     public String getDescription() {
-        return descripcion;
+        return description;
     }
 
-    public void setDescription(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

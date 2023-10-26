@@ -25,6 +25,23 @@ public class ProductServicelmpl implements ProductService {
         return productRepository.save(product);
     }
 
+    @Override
+    public boolean changeValue(String serialProduct, Integer value) {
+        var productOpt = productRepository.findById(serialProduct);
+        if (productOpt.isEmpty()) {
+            throw new RuntimeException(String.format("El producto con el serialProduct %s no existe.", serialProduct));
+        } else {
+            var product = productOpt.get();
+            if (product.getValue() < value) {
+                product.setValue(value);
+                productRepository.save(product);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public void deleteProduct(String id) {
         productRepository.deleteById(id);
     }

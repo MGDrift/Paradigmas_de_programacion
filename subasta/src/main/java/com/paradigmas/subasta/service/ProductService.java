@@ -9,6 +9,7 @@ public interface ProductService {
 
     Product getById(String id);
     Product createOrUpdateProduct(Product emp);
+    boolean changeValue(String serialProduct, Integer value);
 
     void deleteProduct(String id);
 }

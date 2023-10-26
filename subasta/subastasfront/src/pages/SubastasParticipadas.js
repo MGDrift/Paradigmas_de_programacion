@@ -1,21 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import Subasta from '../components/Subasta.js';
+import Moment from 'moment';
 
-const Subastas = ({person}) => {
+const SubastasParticipadas = ({person}) => {
     const [auctions, setAuctions] = useState([]);
     const [people, setPeople] = useState([]);
     const [products, setProducts] = useState([]);
     const [loadingAuctions, setLoadingAuctions] = useState(false);
     const [loadingPeople, setLoadingPeople] = useState(false);
     const [loadingProducts, setLoadingProducts] = useState(false);
-    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         setLoadingAuctions(true);
         setLoadingPeople(true);
         setLoadingProducts(true);
 
-        fetch('v1/auction/list')
+        fetch('v1/auction/list?buyerDocument=' + person.document)
         .then(response => response.json())
         .then(data => {
             setAuctions(data);
@@ -35,7 +34,7 @@ const Subastas = ({person}) => {
             setProducts(data);
             setLoadingProducts(false);
         })
-    }, [refresh]);
+    }, []);
 
     if (loadingAuctions || loadingPeople || loadingProducts) {
         return <p>Loading...</p>;
@@ -52,17 +51,24 @@ const Subastas = ({person}) => {
                         <th scope="col">Valor Actual</th>
                         <th scope="col">Vendedor</th>
                         <th scope="col">Comprador</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {auctions.map((auction, index) => (
-                        <Subasta subasta={auction} people={people} products={products} setRefresh={setRefresh} person={person} key={index}/>
+                        <tr key={auction.id}>
+                        <td>{Moment(auction.initialDate).format('DD-MM-YYYY')}</td>
+                        <td>{Moment(auction.finalDate).format('DD-MM-YYYY')}</td>
+                        <td>{products.find(product => product.serialProduct === auction.serialProduct).name}</td>
+                        <td>${products.find(product => product.serialProduct === auction.serialProduct).value}</td>
+                        <td>{people.find(person => person.document === auction.creatorDocument).name}</td>
+                        <td>{people.find(person => person.document === auction.buyerDocument).name}</td>
+                    </tr>
                     ))}
                 </tbody>
             </table>
         </div>
     )
+    
 }
 
-export default Subastas;
+export default SubastasParticipadas;

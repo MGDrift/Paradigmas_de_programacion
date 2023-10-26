@@ -1,22 +1,36 @@
 import React from 'react';
+import { Outlet, Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({person}) => {
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Subastas</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Mis productos</a>
+    <>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <Link className="navbar-brand" to="/">Subastas</Link>
+        <div className="collapse navbar-collapse" id="navbar">
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                    <Link className="nav-link" to="/mis-subastas-publicadas">Mis subastas publicadas</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/subastas-participadas">Subastas participadas</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/crear-subasta">Crear producto</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/elegir-persona">Elegir persona</Link>
                 </li>
             </ul>
-            
+            { person.name &&
+                <span className="navbar-text">
+                    Hola {person.name}!
+                </span>
+            }
         </div>
     </nav>
+
+      <Outlet />
+    </>
   );
 }
 
